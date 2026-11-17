@@ -1,0 +1,35 @@
+@* AUTH LAYOUT: split screen for Login / Register. Nested inside _Layout. *@
+@{
+    Layout = "_Layout";
+}
+
+<div class="container-fluid">
+    <div class="row auth-wrap">
+        <div class="col-lg-6 auth-form-side">
+            <a class="brand" asp-controller="Home" asp-action="Index">
+                <span class="brand-mark"><i class="bi bi-kanban"></i></span>
+                TeamNest
+            </a>
+            <div class="auth-form">
+                @RenderBody()
+            </div>
+        </div>
+
+        <div class="col-lg-6 auth-side-panel d-none d-lg-flex">
+            @* Each page can fill this panel with its own content, or get the default *@
+            @if (IsSectionDefined("SidePanel"))
+            {
+                @await RenderSectionAsync("SidePanel")
+            }
+            else
+            {
+                <h2>Your team's work, finally in one place.</h2>
+                <p>Projects, tasks and deadlines in a workspace only your team can see.</p>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await RenderSectionAsync("Scripts", required: false)
+}

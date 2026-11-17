@@ -1,0 +1,17 @@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "Something went wrong";
+    Layout = "_PublicLayout";
+}
+
+<section class="section">
+    <div class="container narrow">
+        <h1>Something went wrong</h1>
+        <p class="text-soft">The page couldn't be loaded. Go back and try again, or return to the home page.</p>
+        @if (Model.ShowRequestId)
+        {
+            <p class="small text-soft">Request ID: <code>@Model.RequestId</code></p>
+        }
+        <a class="btn btn-nest mt-2" asp-controller="Home" asp-action="Index">Go to home page</a>
+    </div>
+</section>

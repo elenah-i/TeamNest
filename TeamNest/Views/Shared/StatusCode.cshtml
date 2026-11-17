@@ -1,0 +1,20 @@
+@model int
+@{
+    Layout = "_PublicLayout";
+    var (title, text) = Model switch
+    {
+        404 => ("Page not found", "This page doesn't exist or was moved. Check the address and try again."),
+        403 => ("You can't open this page", "Your role in this workspace doesn't include access to this page."),
+        _ => ("Something went wrong", "The page couldn't be loaded. Try again in a moment.")
+    };
+    ViewData["Title"] = title;
+}
+
+<section class="section">
+    <div class="container narrow">
+        <p class="status-code">@Model</p>
+        <h1>@title</h1>
+        <p class="text-soft">@text</p>
+        <a class="btn btn-nest mt-2" asp-controller="Home" asp-action="Index">Go to home page</a>
+    </div>
+</section>

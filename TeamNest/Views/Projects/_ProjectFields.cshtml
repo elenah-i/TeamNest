@@ -1,0 +1,32 @@
+@* Shared form fields, used by the "New project" modal and the Edit page *@
+@model ProjectFormViewModel
+
+<div class="mb-3">
+    <label asp-for="Name" class="form-label"></label>
+    <input asp-for="Name" class="form-control" placeholder="e.g. Website redesign" />
+    <span asp-validation-for="Name" class="field-error"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Description" class="form-label"></label>
+    <textarea asp-for="Description" class="form-control" rows="3" placeholder="What is this project about?"></textarea>
+    <span asp-validation-for="Description" class="field-error"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Status" class="form-label"></label>
+    <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<ProjectStatus>()"></select>
+</div>
+
+<div class="row g-3">
+    <div class="col-sm-6">
+        <label asp-for="StartDate" class="form-label"></label>
+        <input asp-for="StartDate" class="form-control" />
+        <span asp-validation-for="StartDate" class="field-error"></span>
+    </div>
+    <div class="col-sm-6">
+        <label asp-for="DueDate" class="form-label"></label>
+        <input asp-for="DueDate" class="form-control" />
+        <span asp-validation-for="DueDate" class="field-error"></span>
+    </div>
+</div>

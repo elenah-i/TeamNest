@@ -1,0 +1,61 @@
+@model ProjectsIndexViewModel
+@inject IAuthorizationService AuthorizationService
+@{
+    ViewData["Title"] = "Projects";
+    var canManage = (await AuthorizationService.AuthorizeAsync(User, AppPolicies.CanManageProjects)).Succeeded;
+}
+
+<div class="page-header">
+    <div>
+        <h1>Projects</h1>
+        <p class="text-soft mb-0">Everything your team is working on.</p>
+    </div>
+    @if (canManage)
+    {
+        <button type="button" class="btn btn-nest" data-bs-toggle="modal" data-bs-target="#projectModal">
+            <i class="bi bi-plus-lg"></i> New project
+        </button>
+    }
+</div>
+
+@* Filters: typing or changing the status reloads the list with AJAX (see projects.js) *@
+<div class="filter-bar" id="projectFilters" data-search-url="@Url.Action("Search", "Projects")">
+    <div class="search-field">
+        <i class="bi bi-search" aria-hidden="true"></i>
+        <label for="projectSearch" class="visually-hidden">Search projects</label>
+        <input type="search" id="projectSearch" class="form-control" placeholder="Search by name or description"
+               value="@Model.Term" autocomplete="off" />
+    </div>
+    <div>
+        <label for="statusFilter" class="visually-hidden">Filter by status</label>
+        <select id="statusFilter" class="form-select" asp-items="Html.GetEnumSelectList<ProjectStatus>()">
+            <option value="">All statuses</option>
+        </select>
+    </div>
+</div>
+
+<div id="projectList" aria-live="polite">
+    <partial name="_ProjectList" model="Model.Projects" />
+</div>
+
+@if (canManage)
+{
+    <div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="projectModalLabel">New project</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="projectFormContainer">
+                    <partial name="_ProjectForm" model="Model.NewProject" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/projects.js" asp-append-version="true"></script>
+}

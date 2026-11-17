@@ -1,0 +1,13 @@
+@* Shows a one-time message stored in TempData["Toast"] after a redirect.
+   JavaScript can also add toasts to #toastArea (see TeamNest.toast in site.js). *@
+<div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastArea">
+    @if (TempData["Toast"] is string message)
+    {
+        <div class="toast tn-toast" role="status" aria-live="polite" aria-atomic="true" data-bs-delay="4000">
+            <div class="d-flex">
+                <div class="toast-body"><i class="bi bi-check-circle me-2"></i>@message</div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    }
+</div>

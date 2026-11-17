@@ -1,0 +1,79 @@
+@model IEnumerable<ProjectListItem>
+@inject IAuthorizationService AuthorizationService
+@{
+    var canManage = (await AuthorizationService.AuthorizeAsync(User, AppPolicies.CanManageProjects)).Succeeded;
+}
+
+@if (!Model.Any())
+{
+    <div class="empty-state panel">
+        <i class="bi bi-folder2-open"></i>
+        <p class="mb-1">No projects match.</p>
+        <p class="text-soft small mb-0">Try a different search or status, or create a new project.</p>
+    </div>
+}
+else
+{
+    <div class="panel p-0">
+        <div class="table-responsive">
+            <table class="table project-table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">Project</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Due</th>
+                        <th scope="col">Created by</th>
+                        @if (canManage)
+                        {
+                            <th scope="col"><span class="visually-hidden">Actions</span></th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var project in Model)
+                    {
+                        <tr id="project-row-@project.Id">
+                            <td>
+                                <div class="fw-semibold">@project.Name</div>
+                                @if (!string.IsNullOrWhiteSpace(project.Description))
+                                {
+                                    <div class="text-soft small text-truncate project-desc">@project.Description</div>
+                                }
+                            </td>
+                            <td><project-status value="@project.Status" /></td>
+                            <td class="text-nowrap">
+                                @if (project.DueDate.HasValue)
+                                {
+                                    <span class="@(project.IsOverdue ? "overdue" : "")">
+                                        @project.DueDate.Value.ToString("MMM d, yyyy")
+                                        @if (project.IsOverdue) { <span class="visually-hidden">(overdue)</span> }
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-soft">None</span>
+                                }
+                            </td>
+                            <td class="text-soft">@(project.CreatedByName ?? "Unknown")</td>
+                            @if (canManage)
+                            {
+                                <td class="text-end text-nowrap">
+                                    <a class="btn btn-icon" asp-action="Edit" asp-route-id="@project.Id" aria-label="Edit @project.Name">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-icon btn-icon-danger"
+                                            data-delete-url="@Url.Action("Delete", "Projects", new { id = project.Id })"
+                                            data-row-id="project-row-@project.Id"
+                                            data-name="@project.Name"
+                                            aria-label="Delete @project.Name">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

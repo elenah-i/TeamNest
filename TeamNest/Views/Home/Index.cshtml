@@ -1,0 +1,120 @@
+@{
+    ViewData["Title"] = "Project management for small teams";
+}
+
+<section class="hero">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <h1>Every task and teammate on one board.</h1>
+                <p class="hero-lead mt-3">
+                    TeamNest gives your company a private workspace for projects, tasks and deadlines.
+                    Your data stays separate from every other team on the platform.
+                </p>
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <a asp-controller="Account" asp-action="Register" class="btn btn-nest btn-lg">Create your workspace</a>
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-quiet btn-lg">Log in</a>
+                </div>
+                <p class="text-soft mt-3 mb-0 small">Free for teams of up to 5 people.</p>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="board" aria-label="Example project board">
+                    <div class="board-header">
+                        <p class="board-title">Website redesign</p>
+                        <span class="text-soft small">Acme Studio</span>
+                    </div>
+                    <div class="board-cols">
+                        <div class="board-col">
+                            <h3>To do <span>2</span></h3>
+                            <div class="task">
+                                Write project proposal
+                                <div class="task-meta"><span class="chip-due">Due tomorrow</span><span class="avatar">AK</span></div>
+                            </div>
+                            <div class="task">
+                                Design database tables
+                                <div class="task-meta"><span>Nov 20</span><span class="avatar">SR</span></div>
+                            </div>
+                        </div>
+                        <div class="board-col">
+                            <h3>In progress <span>1</span></h3>
+                            <div class="task">
+                                Build login page
+                                <div class="task-meta"><span><i class="bi bi-chat"></i> 3</span><span class="avatar">HM</span></div>
+                            </div>
+                        </div>
+                        <div class="board-col">
+                            <h3>Done <span>2</span></h3>
+                            <div class="task task-done">Set up GitHub repo</div>
+                            <div class="task task-done">Pick color theme</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section-alt" id="features">
+    <div class="container">
+        <h2>What your team gets</h2>
+        <p class="text-soft mb-5">Everything a small team needs to plan work and finish it on time.</p>
+        <div class="row g-5">
+            <div class="col-md-6">
+                <div class="feature">
+                    <i class="bi bi-building-lock"></i>
+                    <h3>A private workspace</h3>
+                    <p>Each organization's projects and tasks are visible only to its own members.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="feature">
+                    <i class="bi bi-kanban"></i>
+                    <h3>A board you can drag</h3>
+                    <p>Move tasks from To do to Done and see where every project stands at a glance.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="feature">
+                    <i class="bi bi-person-badge"></i>
+                    <h3>Clear roles</h3>
+                    <p>Owners, Admins and Members each see only the actions they're allowed to take.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="feature">
+                    <i class="bi bi-clock-history"></i>
+                    <h3>Full history</h3>
+                    <p>Every change is recorded with who made it and when, so nothing gets lost.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="how-it-works">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-4">
+                <h2>Up and running in three steps</h2>
+                <p class="text-soft">No setup or installation. Everything works in the browser.</p>
+            </div>
+            <div class="col-lg-8">
+                <ol class="steps">
+                    <li><div><h3>Create your organization</h3><p>Sign up and name your company or team. You become its Owner.</p></div></li>
+                    <li><div><h3>Invite your team</h3><p>Share your invite code. Teammates join your workspace as Members.</p></div></li>
+                    <li><div><h3>Assign tasks and track them</h3><p>Create projects, set due dates and watch tasks move to Done.</p></div></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pb-5">
+    <div class="container">
+        <div class="cta-band d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+            <h2>Ready to organize your team's work?</h2>
+            <a asp-controller="Account" asp-action="Register" class="btn btn-light-nest">Create your workspace</a>
+        </div>
+    </div>
+</section>

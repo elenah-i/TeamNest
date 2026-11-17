@@ -1,0 +1,97 @@
+@model DashboardViewModel
+@inject IAuthorizationService AuthorizationService
+@{
+    ViewData["Title"] = "Dashboard";
+    var canManage = (await AuthorizationService.AuthorizeAsync(User, AppPolicies.CanManageProjects)).Succeeded;
+    var firstName = Model.FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? Model.FullName;
+}
+
+<div class="page-header">
+    <div>
+        <h1>Hi @firstName</h1>
+        <p class="text-soft mb-0">Here's where things stand at @Model.OrganizationName.</p>
+    </div>
+    @if (canManage)
+    {
+        <a class="btn btn-nest" asp-controller="Projects" asp-action="Index" asp-fragment="new">
+            <i class="bi bi-plus-lg"></i> New project
+        </a>
+    }
+</div>
+
+<div class="stats">
+    <div class="stat">
+        <span class="stat-value">@Model.Stats.TotalProjects</span>
+        <span class="stat-label">Projects</span>
+    </div>
+    <div class="stat">
+        <span class="stat-value">@Model.Stats.ActiveProjects</span>
+        <span class="stat-label">Active</span>
+    </div>
+    <div class="stat">
+        <span class="stat-value">@Model.Stats.CompletedProjects</span>
+        <span class="stat-label">Completed</span>
+    </div>
+    <div class="stat">
+        <span class="stat-value">@Model.Stats.MemberCount</span>
+        <span class="stat-label">Team members</span>
+    </div>
+</div>
+
+<div class="row g-4 mt-1">
+    <div class="col-xl-8">
+        <section class="panel">
+            <div class="panel-header">
+                <h2>Recent projects</h2>
+                <a asp-controller="Projects" asp-action="Index">See all</a>
+            </div>
+
+            @if (!Model.RecentProjects.Any())
+            {
+                <div class="empty-state">
+                    <i class="bi bi-folder-plus"></i>
+                    <p class="mb-2">No projects yet.</p>
+                    @if (canManage)
+                    {
+                        <a class="btn btn-nest btn-sm" asp-controller="Projects" asp-action="Index" asp-fragment="new">Create your first project</a>
+                    }
+                    else
+                    {
+                        <p class="text-soft small mb-0">Your Owner or Admin will add projects here.</p>
+                    }
+                </div>
+            }
+            else
+            {
+                <ul class="recent-list">
+                    @foreach (var project in Model.RecentProjects)
+                    {
+                        <li>
+                            <div>
+                                <div class="fw-semibold">@project.Name</div>
+                                <div class="text-soft small">
+                                    @(project.DueDate.HasValue ? $"Due {project.DueDate.Value:MMM d, yyyy}" : "No due date")
+                                </div>
+                            </div>
+                            <project-status value="@project.Status" />
+                        </li>
+                    }
+                </ul>
+            }
+        </section>
+    </div>
+
+    <div class="col-xl-4">
+        <section class="panel">
+            <h2>Invite your team</h2>
+            <p class="text-soft small">Teammates choose "Join with a code" on the sign-up page and enter this code.</p>
+            <div class="invite-box">
+                <code class="invite-code" id="dashboardInviteCode">@Model.InviteCode</code>
+                <button type="button" class="btn btn-quiet btn-sm" data-copy-target="#dashboardInviteCode">
+                    <i class="bi bi-clipboard"></i> Copy
+                </button>
+            </div>
+            <a class="d-inline-block mt-3 small" asp-controller="Team" asp-action="Index">Manage team</a>
+        </section>
+    </div>
+</div>

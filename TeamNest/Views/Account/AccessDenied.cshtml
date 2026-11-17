@@ -1,0 +1,14 @@
+@{
+    ViewData["Title"] = "Access denied";
+}
+
+<h1>You can't do that here</h1>
+<p class="text-soft mb-4">
+    Your role in this workspace doesn't include this action. Ask your organization's Owner if you need access.
+</p>
+<a class="btn btn-nest" asp-controller="Dashboard" asp-action="Index">Back to dashboard</a>
+
+@section SidePanel {
+    <h2>Roles keep your workspace tidy.</h2>
+    <p>Owners and Admins manage projects and people. Members work on the tasks assigned to them.</p>
+}

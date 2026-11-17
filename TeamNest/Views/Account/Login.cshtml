@@ -1,0 +1,45 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<h1>Log in</h1>
+<p class="text-soft mb-4">Welcome back. Enter your details to open your workspace.</p>
+
+<form asp-action="Login" method="post">
+    @* Errors that aren't tied to one field, like "Email or password is incorrect" *@
+    <div asp-validation-summary="ModelOnly" class="form-alert" role="alert"></div>
+    <input type="hidden" asp-for="ReturnUrl" />
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" placeholder="you@company.com" autocomplete="email" />
+        <span asp-validation-for="Email" class="field-error"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label"></label>
+        <input asp-for="Password" class="form-control" autocomplete="current-password" />
+        <span asp-validation-for="Password" class="field-error"></span>
+    </div>
+
+    <div class="form-check mb-4">
+        <input asp-for="RememberMe" class="form-check-input" />
+        <label asp-for="RememberMe" class="form-check-label"></label>
+    </div>
+
+    <button type="submit" class="btn btn-nest w-100 py-2">Log in</button>
+</form>
+
+<p class="text-center text-soft mt-4 mb-0">
+    New to TeamNest? <a asp-action="Register">Create an account</a>
+</p>
+
+@section SidePanel {
+    <h2>Pick up where your team left off.</h2>
+    <p>Your board, your tasks and your team's latest updates are waiting for you.</p>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

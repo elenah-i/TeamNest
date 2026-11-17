@@ -1,0 +1,70 @@
+@* APP LAYOUT: sidebar + top bar for signed-in pages. Nested inside _Layout. *@
+@{
+    Layout = "_Layout";
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+}
+
+@functions {
+    // Highlights the sidebar link for the page we're on
+    string ActiveClass(string? current, string controller) =>
+        string.Equals(current, controller, StringComparison.OrdinalIgnoreCase) ? "active" : "";
+}
+
+<div class="app-shell">
+    <aside class="offcanvas-lg offcanvas-start app-sidebar" tabindex="-1" id="appSidebar" aria-labelledby="appSidebarLabel">
+        <div class="offcanvas-header d-lg-none">
+            <span class="brand" id="appSidebarLabel">
+                <span class="brand-mark"><i class="bi bi-kanban"></i></span> TeamNest
+            </span>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#appSidebar" aria-label="Close menu"></button>
+        </div>
+
+        <div class="app-sidebar-inner">
+            <a class="brand d-none d-lg-inline-flex mb-4" asp-controller="Dashboard" asp-action="Index">
+                <span class="brand-mark"><i class="bi bi-kanban"></i></span> TeamNest
+            </a>
+
+            @* ViewComponent: renders Views/Shared/Components/WorkspaceSummary/Default.cshtml *@
+            <vc:workspace-summary></vc:workspace-summary>
+
+            <nav class="app-nav" aria-label="Workspace">
+                <a class="@ActiveClass(currentController, "Dashboard")" asp-controller="Dashboard" asp-action="Index">
+                    <i class="bi bi-grid-1x2"></i> Dashboard
+                </a>
+                <a class="@ActiveClass(currentController, "Projects")" asp-controller="Projects" asp-action="Index">
+                    <i class="bi bi-folder2"></i> Projects
+                </a>
+                <a class="@ActiveClass(currentController, "Team")" asp-controller="Team" asp-action="Index">
+                    <i class="bi bi-people"></i> Team
+                </a>
+                <span class="app-nav-soon" title="Coming in the next part of the project">
+                    <i class="bi bi-kanban"></i> Task board <small>Soon</small>
+                </span>
+            </nav>
+
+            <form asp-controller="Account" asp-action="Logout" method="post" class="mt-auto pt-4">
+                <button type="submit" class="btn btn-quiet w-100">
+                    <i class="bi bi-box-arrow-right"></i> Log out
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <div class="app-main">
+        <header class="app-topbar d-lg-none">
+            <button class="btn btn-quiet" type="button" data-bs-toggle="offcanvas" data-bs-target="#appSidebar"
+                    aria-controls="appSidebar" aria-label="Open menu">
+                <i class="bi bi-list"></i>
+            </button>
+            <span class="brand"><span class="brand-mark"><i class="bi bi-kanban"></i></span> TeamNest</span>
+        </header>
+
+        <main class="app-content">
+            @RenderBody()
+        </main>
+    </div>
+</div>
+
+@section Scripts {
+    @await RenderSectionAsync("Scripts", required: false)
+}

@@ -1,0 +1,15 @@
+@inject SignInManager<ApplicationUser> SignInManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+        <a class="btn btn-nest" asp-controller="Dashboard" asp-action="Index">Open workspace</a>
+    </li>
+}
+else
+{
+    <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login">Log in</a></li>
+    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+        <a class="btn btn-nest" asp-controller="Account" asp-action="Register">Sign up free</a>
+    </li>
+}

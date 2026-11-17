@@ -1,0 +1,100 @@
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Sign up";
+    var joining = Model.Choice == WorkspaceChoice.Join;
+}
+
+<h1>Create your account</h1>
+<p class="text-soft mb-4">Start a new workspace for your team, or join one you've been invited to.</p>
+
+<form asp-action="Register" method="post" id="registerForm">
+    <div asp-validation-summary="ModelOnly" class="form-alert" role="alert"></div>
+
+    <div class="mb-3">
+        <label asp-for="FullName" class="form-label"></label>
+        <input asp-for="FullName" class="form-control" autocomplete="name" />
+        <span asp-validation-for="FullName" class="field-error"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" placeholder="you@company.com" autocomplete="email" />
+        <span asp-validation-for="Email" class="field-error"></span>
+    </div>
+
+    <div class="row g-3 mb-3">
+        <div class="col-sm-6">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" class="form-control" autocomplete="new-password" aria-describedby="passwordHelp" />
+            <span asp-validation-for="Password" class="field-error"></span>
+        </div>
+        <div class="col-sm-6">
+            <label asp-for="ConfirmPassword" class="form-label"></label>
+            <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" />
+            <span asp-validation-for="ConfirmPassword" class="field-error"></span>
+        </div>
+        <div class="col-12 mt-1">
+            <div id="passwordHelp" class="form-text">At least 8 characters, including a number.</div>
+        </div>
+    </div>
+
+    <fieldset class="mb-3">
+        <legend class="form-label fs-6">Workspace</legend>
+        <div class="choice-group">
+            <div class="choice">
+                <input type="radio" asp-for="Choice" value="@WorkspaceChoice.Create" id="choiceCreate" />
+                <label for="choiceCreate">
+                    <strong>Create a new one</strong>
+                    <span>You'll be the Owner</span>
+                </label>
+            </div>
+            <div class="choice">
+                <input type="radio" asp-for="Choice" value="@WorkspaceChoice.Join" id="choiceJoin" />
+                <label for="choiceJoin">
+                    <strong>Join with a code</strong>
+                    <span>You'll be a Member</span>
+                </label>
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="mb-3 @(joining ? "d-none" : "")" id="orgNameGroup">
+        <label asp-for="OrganizationName" class="form-label"></label>
+        <input asp-for="OrganizationName" class="form-control" placeholder="e.g. Acme Studio" />
+        <span asp-validation-for="OrganizationName" class="field-error"></span>
+    </div>
+
+    <div class="mb-3 @(joining ? "" : "d-none")" id="inviteGroup">
+        <label asp-for="InviteCode" class="form-label"></label>
+        <input asp-for="InviteCode" class="form-control text-uppercase" placeholder="e.g. K7MX-Q4TP" autocomplete="off" />
+        <div class="form-text">Ask your organization's Owner for this code. We check it as you type.</div>
+        <span asp-validation-for="InviteCode" class="field-error"></span>
+    </div>
+
+    <div class="form-check mb-4">
+        <input asp-for="AcceptTerms" class="form-check-input" />
+        <label asp-for="AcceptTerms" class="form-check-label"></label>
+        <span asp-validation-for="AcceptTerms" class="field-error d-block"></span>
+    </div>
+
+    <button type="submit" class="btn btn-nest w-100 py-2">Create account</button>
+</form>
+
+<p class="text-center text-soft mt-4 mb-0">
+    Already have an account? <a asp-action="Login">Log in</a>
+</p>
+
+@section SidePanel {
+    <h2>Your team's work, finally in one place.</h2>
+    <p>Set up your workspace in under a minute, then invite your team with a single code.</p>
+    <ol class="steps steps-on-green mt-3">
+        <li><div><h3>Create your account</h3><p>Takes less than a minute.</p></div></li>
+        <li><div><h3>Name your organization</h3><p>Or join one with a code.</p></div></li>
+        <li><div><h3>Add your first project</h3><p>Then invite your team.</p></div></li>
+    </ol>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/register.js" asp-append-version="true"></script>
+}

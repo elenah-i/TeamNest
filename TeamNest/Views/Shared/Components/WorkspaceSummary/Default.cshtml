@@ -1,0 +1,12 @@
+@model WorkspaceSummaryViewModel
+
+<div class="workspace-card">
+    <p class="workspace-name">@Model.OrganizationName</p>
+    <div class="d-flex align-items-center gap-2">
+        <span class="avatar avatar-lg">@Model.Initials</span>
+        <div class="lh-sm">
+            <div class="fw-semibold">@Model.FullName</div>
+            <div class="text-soft small">@Model.Role</div>
+        </div>
+    </div>
+</div>
